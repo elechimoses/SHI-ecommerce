@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,8 @@ Route::get('/blog', function () {
     return view('blog');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact-form.send');
 
 Auth::routes();
 

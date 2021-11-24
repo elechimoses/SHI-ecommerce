@@ -32,18 +32,49 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
+
+                @if(Session::has('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success') }}
+                    @php
+                        Session::forget('success');
+                    @endphp
+                </div>
+                @endif
+
                 <div class="contact__form">
-                    <form action="#">
+                    <form method="POST" action="{{ route('contact-form.send') }}">
+                    @csrf
                         <div class="row">
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Name">
+                                <label>Name</label>
+                                <input type="text" placeholder="Jane Doe" name="name" value="{{ old('name') }}">
+                                @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                                @endif
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Email">
+                                <label>Email</label>
+                                <input type="email" placeholder="doe@domain.com" name="email" value="{{ old('email') }}">
+                                @if ($errors->has('email')) 
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <div class="col-lg-12">
-                                <textarea placeholder="Message"></textarea>
-                                <button type="submit" class="site-btn">Send Message</button>
+                                <label>Subject</label>
+                                <input placeholder="I will like to enquire about.." name="subject">{{ old('subject') }}</textarea>
+                                @if ($errors->has('subject'))
+                                <span class="text-danger">{{ $errors->first('subject') }}</span>
+                                @endif
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Message</label>
+                                <textarea placeholder="Hi there, I would like to....." name="message">{{ old('message') }}</textarea>
+                                @if ($errors->has('message'))
+                                <span class="text-danger">{{ $errors->first('message') }}</span>
+                                @endif
+                                <br>
+                                <button type="submit" name="submit" class="site-btn">Send Message</button>
                             </div>
                         </div>
                     </form>
